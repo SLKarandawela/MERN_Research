@@ -1,4 +1,5 @@
 const Topics = require("../models/topic.model.js");
+const e = require("express");
 
 /**
  *
@@ -87,5 +88,33 @@ exports.approveTopic = (req, res) => {
         res.status(400).json({message: err.message})
     }
 
+}
+
+
+/**
+ * req = {
+ *     groupId
+ * }
+ */
+exports.getTopicByGroupId = (req , res) =>{
+    let body = req.body
+
+    try{
+
+        Topics.findOne({groupId : body.groupId})
+            .then(doc => {
+                if(doc != null){
+                    res.status(200).json(doc)
+                }else{
+                    res.status(400).json({message: "no topic with this group id"})
+                }
+            })
+            .catch(err =>{
+
+            })
+
+    }catch (e){
+        res.status(400).json({message: err.message})
+    }
 
 }
