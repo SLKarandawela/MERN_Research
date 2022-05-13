@@ -24,7 +24,7 @@ exports.submitTopic = (req, res) => {
 
         Topics.findOne({groupId: body.groupId}).then(doc => {
 
-            if(doc == null) {
+            if (doc == null) {
                 const topic = new Topics(
                     {
                         groupId: body.groupId,
@@ -34,19 +34,18 @@ exports.submitTopic = (req, res) => {
 
                 topic.save()
                 res.status(201).json(topic)
-            }
-            else if(doc.status === "PENDINGTOAPPROVE"){
+            } else if (doc.status === "PENDINGTOAPPROVE") {
                 doc.topic = body.topic
                 doc.save()
                 res.status(201).json(doc)
-            }else{
-                res.status(200).json({message:`topic was approves, it cannot change`})
+            } else {
+                res.status(200).json({message: `topic was approves, it cannot change`})
             }
 
         })
-        .catch(e => {
-            throw new Error(e.message)
-        })
+            .catch(e => {
+                throw new Error(e.message)
+            })
 
     } catch (err) {
         res.status(400).json({message: err.message})
@@ -55,12 +54,38 @@ exports.submitTopic = (req, res) => {
 }
 
 
-
 /**
  * req = {
  *     topic id
  * }
-* */
-exports.approveTopic = (req , res) => {
+ * */
+exports.approveTopic = (req, res) => {
+
+    try {
+        let body = req.body
+        //validations
+        if (body.topicId == null) {
+            throw new Error("topic id is required")
+        }
+
+        Topics.findById(body.topicId)
+            .then(doc => {
+                if (doc !== null && doc.status !== "APPROVED") {
+                    console.log(doc)
+                    doc.status = "APPROVED"
+                    doc.save()
+                    res.status(201).json(doc)
+                } else {
+                    res.status(400).json({message: "no topic with this id"})
+                }
+            })
+            .catch(e => {
+                console.log(e)
+            })
+
+    } catch (err) {
+        res.status(400).json({message: err.message})
+    }
+
 
 }
