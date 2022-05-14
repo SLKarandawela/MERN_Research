@@ -118,3 +118,11 @@ exports.getTopicByGroupId = (req , res) =>{
     }
 
 }
+
+
+exports.getPendingTopics = (req , res) =>{
+    Topics.find({status : "PENDINGTOAPPROVE"})
+        .then(doc => {
+            res.status(200).json(doc)
+        })
+}

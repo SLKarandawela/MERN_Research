@@ -54,11 +54,26 @@ exports.createGroup = async (req, res) => {
 }
 
 
+/**
+ * req = {
+ *     studentId = mongo created one
+ * }
+ */
 exports.loadGroupByStudentId = (req , res) =>{
 
     const body = req.body
 
     try {
+
+        Groups.findOne({groupMembers: {$in: body.studentId}})
+            .then(doc => {
+                if(doc != null){
+                    res.status(200).json(doc)
+                }else{
+                    res.status(400).json({message:"you are not allocated to group"})
+                }
+            })
+
 
     }catch (err){
         res.status(400).json({message: err.message})
