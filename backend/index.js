@@ -10,6 +10,7 @@ const bodyParser = require('body-parser')
 
 //importing topic routers
 const topicRoutes = require('./routes/topic.router.js')
+const groupRoutes = require('./routes/group.router.js')
 
 // connecting to the database
 mongoose.connect
@@ -22,6 +23,7 @@ mongoose.connect
 app.use(bodyParser.json())
 
 app.use('/topic' , topicRoutes)
+app.use('/group' , groupRoutes)
 
 
 app.listen(3000, () =>{
