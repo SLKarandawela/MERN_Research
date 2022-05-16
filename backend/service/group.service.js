@@ -81,3 +81,75 @@ exports.loadGroupByStudentId = (req , res) =>{
 
 
 }
+
+/**
+ *
+ * res = all searching for supervisor grps
+ */
+exports.listPendingForSupervisor = (req , res) =>{
+    Groups.find({status : "SEARCHINGSUPERVISOR"})
+        .then(doc => {
+            if(doc != null){
+                res.status(200).json(doc)
+            }else{
+                res.status(400).json({message:"no any groups for supervisors"})
+            }
+        })
+}
+
+/*
+*   req = {
+*       groupId,
+*   }
+* */
+exports.enableSearchSupervisor = (req , res) =>{
+    const body = req.body
+
+    try{
+        Groups.findOne({_id : body.groupId , status : "IDEAL"})
+            .then(doc => {
+                if(doc != null){
+                    doc.status = "SEARCHINGSUPERVISOR"
+                    doc.save()
+                    res.status(200).json({message : "done"})
+                }else{
+                    res.status(400).json({message:"Your group is not eligible for search supervisor"})
+                }
+            })
+    }catch(err){
+        res.status(400).json({message: err.message})
+    }
+
+}
+
+/**
+ *
+ * @param req {
+ *     groupId,
+ *     supervisorId
+ * }
+ * @param res
+ */
+exports.allocateSupervisor = (req , res) =>{
+    const body = req.body
+    try{
+
+        Groups.findById(body.groupId)
+            .then(doc => {
+                if(doc != null){
+                    doc.status = "APPROVESUPERVISOR"
+
+                    //TODO add supervisor get and validate code
+                    doc.supervisor = body.supervisorId
+
+                    doc.save()
+                    res.status(200).json({message : "done"})
+                }else{
+                    res.status(400).json({message:"Group does not exist"})
+                }
+            })
+
+    }catch(err){
+        res.status(400).json({message: err.message})
+    }
+}

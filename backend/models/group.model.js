@@ -1,5 +1,15 @@
 const mongoose = require ("mongoose");
 
+
+/**
+ * IDEAL
+ * SEARCHINGSUPERVISOR
+ * APPROVESUPERVISOR
+ * SEARCHINGCOSUPERVISOR
+ * ACTIVE
+ * DELETED
+* */
+
 const groupSchema = mongoose.Schema({
     groupName : String,
     groupMembers : [],
@@ -7,7 +17,7 @@ const groupSchema = mongoose.Schema({
     coSupervisor:String,
     status: {
         type : String,
-        default: "ACTIVE"
+        default: "IDEAL"
     },
     createdAt : {
         type : Date,
