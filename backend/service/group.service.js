@@ -153,3 +153,78 @@ exports.allocateSupervisor = (req , res) =>{
         res.status(400).json({message: err.message})
     }
 }
+
+
+/**
+ *
+ * res = all searching for co supervisor grps
+ */
+exports.listPendingForCoSupervisor = (req , res) =>{
+    Groups.find({status : "SEARCHINGCOSUPERVISOR"})
+        .then(doc => {
+            if(doc != null){
+                res.status(200).json(doc)
+            }else{
+                res.status(400).json({message:"no any groups for co supervisors"})
+            }
+        })
+}
+
+
+/*
+*   req = {
+*       groupId,
+*   }
+* */
+exports.enableSearchCoSupervisor = (req , res) =>{
+    const body = req.body
+
+    try{
+        Groups.findOne({_id : body.groupId , status : "APPROVESUPERVISOR"})
+            .then(doc => {
+                if(doc != null){
+                    doc.status = "SEARCHINGCOSUPERVISOR"
+                    doc.save()
+                    res.status(200).json({message : "done"})
+                }else{
+                    res.status(400).json({message:"Your group is not eligible for search co supervisor"})
+                }
+            })
+    }catch(err){
+        res.status(400).json({message: err.message})
+    }
+
+}
+
+
+/**
+ *
+ * @param req {
+ *     groupId,
+ *     coSupervisorId
+ * }
+ * @param res
+ */
+exports.allocateCoSupervisor = (req , res) =>{
+    const body = req.body
+    try{
+
+        Groups.findById(body.groupId)
+            .then(doc => {
+                if(doc != null){
+                    doc.status = "APPROVECOSUPERVISOR"
+
+                    //TODO add co supervisor get and validate code
+                    doc.coSupervisor = body.coSupervisorId
+
+                    doc.save()
+                    res.status(200).json({message : "done"})
+                }else{
+                    res.status(400).json({message:"Group does not exist"})
+                }
+            })
+
+    }catch(err){
+        res.status(400).json({message: err.message})
+    }
+}
