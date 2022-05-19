@@ -90,8 +90,68 @@ exports.stafflogin = async (req,res,next) => {
     }
 };
 
-exports.forgotpassword = (req,res,next) => {
-    res.send("Forgot Password Route");
+exports.studentforgotpassword = async (req,res,next) => {
+    // res.send("Forgot Password Route");
+    const {studentemail} = req.body;
+    try {
+       const student = await Student.findOne({studentemail});
+       
+       if(!student){
+           return next(new ErrorResponse("Student Email could not be sent",404))
+       }
+
+       const studentresetToken = student.getResetPasswordToken();
+
+       await student.save();
+
+       const resetUrl = `http://localhost:5000/studentpasswordreset/${studentresetToken}`;
+
+       const message = `
+        <h1> You have requested a new password reset </h1>
+        <p> Please go to this link to reset your password </p>
+        <a href=${resetUrl} clicktracking="off>${resetUrl}</a>
+       `
+
+       try {
+           
+       } catch (error) {
+           
+       }
+    } catch (error) {
+        
+    } 
+};
+
+exports.staffforgotpassword = async (req,res,next) => {
+    // res.send("Forgot Password Route");
+    const {staffemail} = req.body;
+    try {
+       const staff = await Staff.findOne({staffemail});
+       
+       if(!staff){
+           return next(new ErrorResponse("Staff Email could not be sent",404))
+       }
+
+       const staffresetToken = staff.getResetPasswordToken();
+
+       await staff.save();
+
+       const resetUrl = `http://localhost:5000/staffpasswordreset/${staffresetToken}`;
+
+       const message = `
+        <h1> You have requested a new password reset </h1>
+        <p> Please go to this link to reset your password </p>
+        <a href=${resetUrl} clicktracking="off>${resetUrl}</a>
+       `
+
+       try {
+           
+       } catch (error) {
+           
+       }
+    } catch (error) {
+        
+    } 
 };
 
 exports.resetpassword = (req,res,next) => {

@@ -66,6 +66,17 @@ StaffSchema.methods.getSignedToken = function(){
     return jwt.sign({id:this._id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE,});
 };
 
+StaffSchema.method.getResetPasswordToken = function(){
+    const staffresetToken = crypto.randomBytes(20).toString("hex");
+
+    this.resetPasswordtoken = crypto.createHash("sha256").update(staffresetToken).digest("hex");
+
+    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000);
+
+    return staffresetToken;
+
+}
+
 const Staff = mongoose.model("Staff", StaffSchema);
 
 module.exports = Staff;

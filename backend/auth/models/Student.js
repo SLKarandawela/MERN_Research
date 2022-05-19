@@ -75,6 +75,17 @@ StudentSchema.methods.getSignedToken = function(){
     return jwt.sign({id:this._id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE,});
 };
 
+StudentSchema.method.getResetPasswordToken = function(){
+    const studentresetToken = crypto.randomBytes(20).toString("hex");
+
+    this.resetPasswordtoken = crypto.createHash("sha256").update(studentresetToken).digest("hex");
+
+    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000);
+
+    return studentresetToken;
+
+}
+
 const Student = mongoose.model("Student", StudentSchema);
 
 module.exports = Student;
