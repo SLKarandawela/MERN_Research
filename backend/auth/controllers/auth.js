@@ -1,5 +1,7 @@
+const crypto = require('crypto');
 const Student = require('../models/Student');
 const Staff = require('../models/Staff');
+const sendEmail = require('../utils/sendEmail');
 
 const ErrorResponse = require('../utils/errorResponse');
 
@@ -112,13 +114,24 @@ exports.studentforgotpassword = async (req,res,next) => {
         <a href=${resetUrl} clicktracking="off>${resetUrl}</a>
        `
 
-       try {
-           
-       } catch (error) {
-           
-       }
+        try {
+         await sendEmail({
+             to: student.studentemail,
+             subject: "Password Reset Request",
+             text: message
+         }) ;
+         
+         res.status(200).json({success:true,data: "Email Sent"});
+        }catch (error) {
+          student.resetPasswordtoken = undefined; 
+          student.resetPasswordExpire = undefined; 
+
+          await student.save();
+
+          return next(new ErrorResponse("Email could not be sent",500));
+        }
     } catch (error) {
-        
+        next(error);
     } 
 };
 
@@ -145,17 +158,84 @@ exports.staffforgotpassword = async (req,res,next) => {
        `
 
        try {
-           
-       } catch (error) {
-           
-       }
-    } catch (error) {
+        await sendEmail({
+            to: staff.staffemail,
+            subject: "Password Reset Request",
+            text: message
+        }) ;
         
-    } 
+        res.status(200).json({success:true,data: "Email Sent"});
+       }catch (error) {
+         staff.resetPasswordtoken = undefined; 
+         staff.resetPasswordExpire = undefined; 
+
+         await staff.save();
+
+         return next(new ErrorResponse("Email could not be sent",500));
+       }
+   } catch (error) {
+       next(error);
+   }  
 };
 
-exports.resetpassword = (req,res,next) => {
-    res.send("Reset Password Route");
+exports.resetstudentpassword = async (req,res,next) => {
+    // res.send("Reset Password Route");
+    const resetPasswordtoken = crypto.createHash("sha256").update(req.params.resetToken).digest("hex");
+
+    try {
+        const student = await Student.findOne({
+            resetPasswordtoken,
+            resetPasswordExpire: { $gt: Date.now()}
+        })
+
+        if(!student){
+            return next(new ErrorResponse("Invalid Reset Token", 400));
+        }
+
+        student.password = req.body.password;
+        student.resetPasswordtoken = undefined;
+        student.resetPasswordExpire = undefined;
+
+        await student.save();
+
+        res.status(201).json({
+            success:true,
+            data:"Password Reset Success"
+        })
+    } catch (error) {
+        next(error);
+    }
+
+};
+
+exports.resetstaffpassword = async (req,res,next) => {
+    // res.send("Reset Password Route");
+    const resetPasswordtoken = crypto.createHash("sha256").update(req.params.resetToken).digest("hex");
+
+    try {
+        const staff = await Staff.findOne({
+            resetPasswordtoken,
+            resetPasswordExpire: { $gt: Date.now()}
+        })
+
+        if(!staff){
+            return next(new ErrorResponse("Invalid Reset Token", 400));
+        }
+
+        staff.password = req.body.password;
+        staff.resetPasswordtoken = undefined;
+        staff.resetPasswordExpire = undefined;
+
+        await staff.save();
+
+        res.status(201).json({
+            success:true,
+            data:"Password Reset Success"
+        })
+    } catch (error) {
+        next(error);
+    }
+
 };
 
 const sendStudentToken = (student, statusCode, res) => {
