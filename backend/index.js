@@ -22,6 +22,7 @@ app.use(express.json());
 
 app.use('/api/auth', require('./auth/routes/auth'));
 app.use('/api/private', require('./auth/routes/private'));
+app.use('/api/panel', require('./panel_member/routes/evaluation'));
 
 //Error Handler (should be the last piece of middleware)
 app.use(errorHandler);
