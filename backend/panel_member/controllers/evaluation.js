@@ -59,3 +59,15 @@ exports.getevaluation = (req,res) => {
         });
     });
 };
+
+exports.deleteevaluation = (req,res) => {
+    // res.send("delete one Evaluation Route");
+    Evaluation.findByIdAndRemove(req.params.id, req.body).then((evaluation) =>{
+        res.json(evaluation);
+    }).catch((err) => {
+        res.status(404).json({
+            message: "There is no any evaluations available for this ID",
+            error: err.message 
+        });
+    });
+};
