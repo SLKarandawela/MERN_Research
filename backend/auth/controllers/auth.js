@@ -240,10 +240,12 @@ exports.resetstaffpassword = async (req,res,next) => {
 
 const sendStudentToken = (student, statusCode, res) => {
     const token = student.getSignedToken();
-    res.status(statusCode).json({success:true, token})
+    const role = 'Student';
+    res.status(statusCode).json({success:true, token, role})
 }
 
 const sendStaffToken = (staff, statusCode, res) => {
     const token = staff.getSignedToken();
-    res.status(statusCode).json({success:true, token})
+    const role = 'Staff';
+    res.status(statusCode).json({success:true, token, role})
 }
