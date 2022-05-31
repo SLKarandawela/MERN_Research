@@ -22,11 +22,11 @@ exports.studentregister = async (req,res,next) => {
 
 exports.staffregister = async (req,res,next) => {
     // res.send("Staff Register Route");
-    const {staffid,stafffirstname,stafflastname,staffemail
+    const {stafftype,staffid,stafffirstname,stafflastname,staffemail
         ,contactnumber,faculty,researcharea,password } = req.body;
     try{
         const staff = await Staff.create({
-            staffid,stafffirstname,stafflastname,staffemail,contactnumber,faculty,researcharea,password
+            stafftype,staffid,stafffirstname,stafflastname,staffemail,contactnumber,faculty,researcharea,password
         });
 
         sendStaffToken(staff, 201, res);
@@ -246,6 +246,7 @@ const sendStudentToken = (student, statusCode, res) => {
 
 const sendStaffToken = (staff, statusCode, res) => {
     const token = staff.getSignedToken();
-    const role = 'Staff';
+    const role = staff.stafftype;
+    // console.log(staff.stafftype);
     res.status(statusCode).json({success:true, token, role})
 }

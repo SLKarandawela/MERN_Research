@@ -4,6 +4,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const StaffSchema = new mongoose.Schema({
+    stafftype:{
+        type: String,
+        required: [true, "Please Provide Staff Type"]
+    },
     staffid:{
         type: String,
         required: [true, "Please Provide Staff ID"],
