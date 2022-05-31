@@ -30,3 +30,7 @@ app.listen(3000, () =>{
     console.log("Backend sevice is listening on port 3000 ")
 
 });
+
+
+// add kavinda
+module.exports = app
