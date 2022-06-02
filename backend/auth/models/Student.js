@@ -75,7 +75,7 @@ StudentSchema.methods.getSignedToken = function(){
     return jwt.sign({id:this._id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE,});
 };
 
-StudentSchema.method.getResetPasswordToken = function(){
+StudentSchema.methods.getResetPasswordToken = function(){
     const studentresetToken = crypto.randomBytes(20).toString("hex");
 
     this.resetPasswordtoken = crypto.createHash("sha256").update(studentresetToken).digest("hex");

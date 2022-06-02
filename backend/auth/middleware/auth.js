@@ -33,7 +33,7 @@ exports.studentprotect = async (req,res,next) => {
     } catch (error) {
         return next(new ErrorResponse("Not authorized to access this route",401));
     }
-}
+};
 
 //staff
 exports.staffprotect = async (req,res,next) => {
@@ -65,4 +65,4 @@ exports.staffprotect = async (req,res,next) => {
     } catch (error) {
         return next(new ErrorResponse("Not authorized to access this route",401));
     }
-}
+};
