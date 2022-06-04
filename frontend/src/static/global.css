@@ -1,0 +1,156 @@
+.topNav{
+    background-color: #002f66;
+}
+.topNavLinks{
+    color: aliceblue;
+    font-weight: bold;
+    margin-left: 2em;
+}
+
+.topNavLinks:hover{
+    color: #fb913c;
+}
+
+.topNavDropdowns{
+color: aliceblue;
+    font-weight: bold;
+    margin-left: 2em;
+}
+
+#chat_app_link{
+    float: right;
+}
+#submittion_links{
+    color: aliceblue;
+}
+
+.submittion_links:hover {
+    color: #fb913c;
+}
+
+.commonTableHead {
+    background-color: #002f66;
+    color: aliceblue;
+}
+
+.center_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.titleClass{
+    font-weight: bold;
+    padding-left: 2em;
+}
+
+.formLabelStyler{
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.globalButton{
+    color: white;
+    font-weight: bold;
+    width: 15em;
+    font-size: 0.9em;
+    margin-top: 1em;
+    background-color: #002f66;
+    border-radius: 3em;
+}
+
+.globalMButton {
+    color: white;
+    font-weight: bold;
+    width: 10em;
+    font-size: 0.9em;
+    margin-top: 1em;
+    background-color: #002f66;
+    border-radius: 3em;
+}
+
+.globalCancelButton {
+    color: #002f66;
+    font-weight: bold;
+    width: 15em;
+    font-size: 0.9em;
+    margin-top: 1em;
+    background-color: #fb913c;
+    border-radius: 3em;
+}
+
+.recieveMessage{
+    background-color: rgb(230, 232, 232);
+    color: rgb(0, 0, 0);
+    float: left;
+    border-radius: 1em;
+    padding: 1em;
+    max-width: 50%;
+    margin-bottom: 1em;
+    
+    
+}
+
+.sendMessage {
+    background-color: rgb(7, 152, 243);
+    color: whitesmoke;
+    float: right;
+    border-radius: 1em;
+        padding: 1em;
+        max-width: 50%;
+        margin-bottom: 1em;
+}
+
+.userList {
+    background-color: rgb(1, 40, 63);
+    color: whitesmoke;
+    float: right;
+    
+    padding: 1em;
+    max-width: 50%;
+    margin-bottom: 1em;
+}
+
+
+
+.messageTime{
+    float: inline-end;
+    margin-left: 80%;
+}
+
+.chatContainer{
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.chatBox{
+    position: fixed;
+        bottom: 0;
+        width: 50%;
+}
+.sendBtnCol{
+    margin: auto;
+               
+}
+
+#chatStudents{
+    min-height: 50%;
+    overflow-y: auto;
+}
+
+#chatInstructor {
+    min-height: 50%;
+    overflow-y: auto;
+}
+
+.message_right{
+    float: right;
+    display: block;
+    justify-content: flex-end;
+}
+
+#global_chat_container{
+    max-height: 55vh;
+    overflow-y: auto;
+}

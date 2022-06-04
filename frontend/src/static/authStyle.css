@@ -1,0 +1,58 @@
+.auth_left_col{
+    /* background-image: url('/public/images/auth.jpg'); */
+    /* background-color: brown; */
+    min-height: 100vh;
+    padding-top: 2em;
+}
+
+.auth_right_col {
+    padding: 3em;
+    min-height: 100vh;
+    overflow: auto;
+    max-height: 100vh;
+    /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.42);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(3.5px);
+        -webkit-backdrop-filter: blur(3.5px);
+        border: 1px solid rgba(255, 255, 255, 0.19);
+}
+
+.auth_footer{
+    position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 1em;
+}
+
+.login_form{
+    padding: 4em;
+}
+
+.center_wrapper{
+    display: flex;
+        justify-content: center;
+        align-items: center;
+
+}
+
+.FormLabelStyler{
+    color: black;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.GlobalButton{
+    width: 10em;
+    border-radius: 3em;
+    background-color: #FFA500;
+    color: darkblue;
+}
+.auth_top_header{
+    font-weight: bolder;
+}
+#acadRegLink{
+    float: right;
+    text-decoration: none;
+}
